@@ -1,5 +1,5 @@
 ---
-# handlers file for hive.nodejs
+# handlers file for redops.nodejs
 
 - name: Restart NGINX
   systemd: "name=nginx state=restarted"
