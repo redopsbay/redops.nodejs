@@ -1,0 +1,7 @@
+---
+# vars file for hive.nodejs
+
+
+__node_version: v12.20.2
+__server_name: goadminops.com
+__service_port: 3000

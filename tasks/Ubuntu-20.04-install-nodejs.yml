@@ -1,0 +1,74 @@
+---
+- name: Update apt packages cache
+  apt:
+    update_cache: yes
+
+- name: Install NGINX Package
+  apt:
+    name: "{{ item }}"
+    state: present
+  notify: Enable NGINX
+  with_items:
+    - nginx
+    - curl
+
+- name: "Install NVM (NodeJS Version Manager) for {{ unix_user }}"
+  shell: source /home/"{{ unix_user }}"/.profile && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{ unix_user }}"
+  when: unix_user is defined
+
+- name: Install NVM for default user
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  args:
+    executable: /bin/bash
+  when: unix_user is not defined
+
+- name: "Install NodeJS Version --> {{ node_version }} for {{ unix_user }}"
+  shell: source /home/"{{ unix_user }}"/.nvm/nvm.sh && nvm install "{{ node_version }}"
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{ unix_user }}"
+  when: unix_user is defined
+
+- name: "Install NodeJS Version --> {{ node_version }} for default user"
+  shell: source ~/.nvm/nvm.sh && nvm install "{{ node_version }}"
+  args:
+    executable: /bin/bash
+  when: unix_user is not defined
+
+- name: "Install NodeJS Packages for {{ unix_user }}"
+  shell: source /home/"{{ unix_user }}"/.nvm/nvm.sh && npm install -g "{{ node_packages }}"
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{ unix_user }}"
+  when: unix_user is defined and node_packages is defined
+
+- name: Install NodeJS Packages for default user
+  shell: source ~/.nvm/nvm.sh && npm install -g "{{ node_packages }}"
+  args:
+    executable: /bin/bash
+  when: unix_user is not defined and node_packages is defined
+
+- name: Provision NGINX Configuration
+  template: 
+    src: templates/nginx.conf.j2
+    dest: "/etc/nginx/sites-available/{{ domain_name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable the NGINX Configuration
+  file:
+    src: "/etc/nginx/sites-available/{{ domain_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ domain_name }}.conf"
+    state: link
+    owner: root
+    group: root
+    mode: 0644
+  
+  notify: Restart NGINX

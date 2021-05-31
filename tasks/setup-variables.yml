@@ -1,0 +1,15 @@
+---
+- name: Set NodeJS Version
+  set_fact:
+    node_version: "{{ __node_version }}"
+  when: node_version is not defined
+
+- name: Set Server Name or Domain Name
+  set_fact:
+    domain_name: "{{ __domain_name }}"
+  when: domain_name is not defined
+
+- name: Set the service port number for nodejs application
+  set_fact:
+    service_port: "{{ __service_port }}"
+  when: service_port is not defined

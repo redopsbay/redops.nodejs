@@ -1,0 +1,14 @@
+---
+# handlers file for hive.nodejs
+
+- name: Restart NGINX
+  systemd: "name=nginx state=restarted"
+
+- name: Stop NGINX
+  systemd: "name=nginx state=stopped"
+
+- name: Start NGINX
+  systemd: "name=nginx state=started"
+
+- name: Enable NGINX
+  systemd: "name=nginx enabled=yes"
