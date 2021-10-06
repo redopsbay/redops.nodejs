@@ -26,7 +26,7 @@ Example Playbook for lamp stack provisioning:
         node_version: v12.20.2
         node_packages: react
       roles:
-      - hive.nodejs
+      - redops.nodejs
       ignore_errors: '{{ ansible_check_mode }}'
 
       
@@ -40,5 +40,5 @@ Author Information
 
 Name: Alfred Valderrama
 Email: alfred98valderrama@gmail.com
-Github Repository: https://github.com/alfredvalderrama98
+Github Repository: https://github.com/redopsbay.com
 Website: https://goadminops.com
