@@ -37,8 +37,7 @@ BSD
 
 Author Information
 ------------------
-
-Name: Alfred Valderrama
-Email: alfred98valderrama@gmail.com
-Github Repository: https://github.com/redopsbay.com
-Website: https://goadminops.com
+- Name: Alfred Valderrama
+- Email: alfred98valderrama@gmail.com
+- Github Repository: https://github.com/redopsbay.com
+- Website: https://goadminops.com
